@@ -57,7 +57,8 @@ defmodule FredApiClient.MixProject do
 
   defp description do
     "A fully-typed Elixir client for the Federal Reserve Economic Data (FRED) API. " <>
-      "Covers all 36 endpoints: categories, releases, series, sources, tags, GeoFRED and bulk v2."
+      "Covers all 36 endpoints: categories, releases, series, sources, tags, GeoFRED and bulk v2." <>
+      "Includes intelligent Cachex-backed caching with frequency-aware TTLs."
   end
 
   defp package do
