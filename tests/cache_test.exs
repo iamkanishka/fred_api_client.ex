@@ -133,6 +133,36 @@ defmodule FredApiClient.CacheTest do
     end
   end
 
+  describe "invalidate_prefix/1" do
+    test "deletes all keys matching the prefix" do
+      Cache.fetch("fred:categories:get_category:abc", :timer.seconds(60), fn -> {:ok, %{}} end)
+      Cache.fetch("fred:categories:get_children:def", :timer.seconds(60), fn -> {:ok, %{}} end)
+      Cache.fetch("fred:series:get_series:ghi", :timer.seconds(60), fn -> {:ok, %{}} end)
+
+      assert {:ok, 2} = Cache.invalidate_prefix("fred:categories:")
+
+      # Categories keys gone — series key untouched
+      call_count = :counters.new(1, [])
+      Cache.fetch("fred:categories:get_category:abc", :timer.seconds(60), fn ->
+        :counters.add(call_count, 1, 1)
+        {:ok, %{}}
+      end)
+      assert :counters.get(call_count, 1) == 1
+
+      # Series key still cached — fun not called again
+      series_call_count = :counters.new(1, [])
+      Cache.fetch("fred:series:get_series:ghi", :timer.seconds(60), fn ->
+        :counters.add(series_call_count, 1, 1)
+        {:ok, %{}}
+      end)
+      assert :counters.get(series_call_count, 1) == 0
+    end
+
+    test "returns {:ok, 0} when no keys match the prefix" do
+      assert {:ok, 0} = Cache.invalidate_prefix("fred:nonexistent:")
+    end
+  end
+
   describe "clear/0" do
     test "removes all keys from cache" do
       Cache.fetch("test:clear:1", :timer.seconds(60), fn -> {:ok, %{}} end)
