@@ -53,9 +53,9 @@ defmodule FredApiClient.Cache do
 
   @ttl_24h :timer.hours(24)
   @ttl_12h :timer.hours(12)
-  @ttl_6h  :timer.hours(6)
-  @ttl_2h  :timer.hours(2)
-  @ttl_1h  :timer.hours(1)
+  @ttl_6h :timer.hours(6)
+  @ttl_2h :timer.hours(2)
+  @ttl_1h :timer.hours(1)
 
   # Frequencies that are too volatile to cache observations for
   @volatile_frequencies ~w(d w bw wef weth wew wetu wem wesu wesa bwew bwem)
@@ -76,7 +76,7 @@ defmodule FredApiClient.Cache do
       end)
   """
   @spec fetch(String.t(), non_neg_integer(), (-> {:ok, any()} | {:error, any()})) ::
-    {:ok, any()} | {:error, any()}
+          {:ok, any()} | {:error, any()}
   def fetch(key, ttl, fun) do
     if cache_enabled?() do
       case Cachex.get(cache_name(), key) do
@@ -108,10 +108,19 @@ defmodule FredApiClient.Cache do
   @doc "Invalidate all keys matching a prefix pattern e.g. `\"fred:categories:\"`."
   @spec invalidate_prefix(String.t()) :: {:ok, non_neg_integer()}
   def invalidate_prefix(prefix) do
-    Cachex.filter!(cache_name(), fn entry ->
-      not String.starts_with?(Cachex.Entry.key(entry), prefix)
-    end)
-    {:ok, :invalidated}
+    # Stream only keys (no values), filter by prefix, delete each one.
+    # Note: stream! operates on ETS directly — buffer the matching keys first,
+    # then delete outside the stream to avoid mutating the table mid-iteration.
+    query = Cachex.Query.build(output: :key)
+
+    matching_keys =
+      cache_name()
+      |> Cachex.stream!(query)
+      |> Enum.filter(&String.starts_with?(&1, prefix))
+
+    Enum.each(matching_keys, &Cachex.del(cache_name(), &1))
+
+    {:ok, length(matching_keys)}
   end
 
   @doc "Clear the entire cache."
@@ -127,19 +136,24 @@ defmodule FredApiClient.Cache do
   # ---------------------------------------------------------------------------
 
   @doc false
+  @spec ttl_24h() :: non_neg_integer()
   def ttl_24h, do: ttl_override(:ttl_24h, @ttl_24h)
 
   @doc false
+  @spec ttl_12h() :: non_neg_integer()
   def ttl_12h, do: ttl_override(:ttl_12h, @ttl_12h)
 
   @doc false
-  def ttl_6h,  do: ttl_override(:ttl_6h,  @ttl_6h)
+  @spec ttl_6h() :: non_neg_integer()
+  def ttl_6h, do: ttl_override(:ttl_6h, @ttl_6h)
 
   @doc false
-  def ttl_2h,  do: ttl_override(:ttl_2h,  @ttl_2h)
+  @spec ttl_2h() :: non_neg_integer()
+  def ttl_2h, do: ttl_override(:ttl_2h, @ttl_2h)
 
   @doc false
-  def ttl_1h,  do: ttl_override(:ttl_1h,  @ttl_1h)
+  @spec ttl_1h() :: non_neg_integer()
+  def ttl_1h, do: ttl_override(:ttl_1h, @ttl_1h)
 
   @doc """
   Returns the appropriate TTL for series observations based on frequency.
@@ -148,11 +162,12 @@ defmodule FredApiClient.Cache do
   """
   @spec observations_ttl(String.t() | nil) :: non_neg_integer() | :skip
   def observations_ttl(frequency) when frequency in @volatile_frequencies, do: :skip
-  def observations_ttl("m"),  do: ttl_1h()
-  def observations_ttl("q"),  do: ttl_6h()
+  def observations_ttl("m"), do: ttl_1h()
+  def observations_ttl("q"), do: ttl_6h()
   def observations_ttl("sa"), do: ttl_6h()
-  def observations_ttl("a"),  do: ttl_6h()
-  def observations_ttl(_),    do: :skip  # unknown frequency → don't cache
+  def observations_ttl("a"), do: ttl_6h()
+  # unknown frequency → don't cache
+  def observations_ttl(_), do: :skip
 
   # ---------------------------------------------------------------------------
   # Cache key builders
