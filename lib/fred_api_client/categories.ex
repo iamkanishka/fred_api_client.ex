@@ -1,6 +1,6 @@
 defmodule FredApiClient.Categories do
   @moduledoc """
-  FRED Categories API — 6 endpoints.
+  FRED Categories API — 6 endpoints. All responses are cached for 24h.
 
   Categories form a hierarchical tree used to organise FRED series.
   The root category has `id: 0`. Navigate with `get_children/2` and find
@@ -11,8 +11,11 @@ defmodule FredApiClient.Categories do
   """
 
   alias FredApiClient.Client
-
   alias FredApiClient.Error
+
+  alias FredApiClient.Cache
+
+  @group "categories"
 
   @type config :: Client.config()
 
@@ -21,7 +24,7 @@ defmodule FredApiClient.Categories do
   # ---------------------------------------------------------------------------
 
   @doc """
-  Get a single category by ID.
+  Get a single category by ID, Cached 24h.
 
   ## Parameters
   - `category_id` (required) — e.g. `125`
@@ -32,14 +35,18 @@ defmodule FredApiClient.Categories do
       {:ok, %{"categories" => [%{"id" => 125, "name" => "Trade Balance", "parent_id" => 13}]}}
   """
   @spec get_category(map(), config()) :: {:ok, map()} | {:error, Error.t()}
-  def get_category(params, config), do: Client.get("/fred/category", params, config)
+  def get_category(params, config) do
+    Cache.fetch(Cache.build_key(@group, "get_category", params), Cache.ttl_24h(), fn ->
+      Client.get("/fred/category", params, config)
+    end)
+  end
 
   # ---------------------------------------------------------------------------
   # GET /fred/category/children
   # ---------------------------------------------------------------------------
 
   @doc """
-  Get the child categories for a specified parent category.
+  Get the child categories for a specified parent category, Cached 24h.
 
   ## Parameters
   - `category_id` (required)
@@ -51,28 +58,36 @@ defmodule FredApiClient.Categories do
       {:ok, %{"categories" => [%{"id" => 16, "name" => "Exports", "parent_id" => 13}, ...]}}
   """
   @spec get_children(map(), config()) :: {:ok, map()} | {:error, Error.t()}
-  def get_children(params, config), do: Client.get("/fred/category/children", params, config)
+  def get_children(params, config) do
+    Cache.fetch(Cache.build_key(@group, "get_children", params), Cache.ttl_24h(), fn ->
+      Client.get("/fred/category/children", params, config)
+    end)
+  end
 
   # ---------------------------------------------------------------------------
   # GET /fred/category/related
   # ---------------------------------------------------------------------------
 
   @doc """
-  Get the related categories for a category.
+  Get the related categories for a category, Cached 24h.
 
   ## Parameters
   - `category_id` (required)
   - `realtime_start` / `realtime_end` (optional)
   """
   @spec get_related(map(), config()) :: {:ok, map()} | {:error, Error.t()}
-  def get_related(params, config), do: Client.get("/fred/category/related", params, config)
+   def get_related(params, config) do
+    Cache.fetch(Cache.build_key(@group, "get_related", params), Cache.ttl_24h(), fn ->
+      Client.get("/fred/category/related", params, config)
+    end)
+  end
 
   # ---------------------------------------------------------------------------
   # GET /fred/category/series
   # ---------------------------------------------------------------------------
 
   @doc """
-  Get the series in a category (paginated).
+  Get the series in a category (paginated), Cached 24h.
 
   ## Parameters
   - `category_id` (required)
@@ -93,14 +108,18 @@ defmodule FredApiClient.Categories do
       {:ok, %{"count" => 32, "seriess" => [...]}}
   """
   @spec get_series(map(), config()) :: {:ok, map()} | {:error, Error.t()}
-  def get_series(params, config), do: Client.get("/fred/category/series", params, config)
+  def get_series(params, config) do
+    Cache.fetch(Cache.build_key(@group, "get_series", params), Cache.ttl_24h(), fn ->
+      Client.get("/fred/category/series", params, config)
+    end)
+  end
 
   # ---------------------------------------------------------------------------
   # GET /fred/category/tags
   # ---------------------------------------------------------------------------
 
   @doc """
-  Get the tags for a category.
+  Get the tags for a category, Cached 24h..
 
   ## Parameters
   - `category_id` (required)
@@ -108,14 +127,18 @@ defmodule FredApiClient.Categories do
   - `limit` / `offset` / `order_by` / `sort_order` (optional)
   """
   @spec get_tags(map(), config()) :: {:ok, map()} | {:error, Error.t()}
-  def get_tags(params, config), do: Client.get("/fred/category/tags", params, config)
+  def get_tags(params, config) do
+    Cache.fetch(Cache.build_key(@group, "get_tags", params), Cache.ttl_24h(), fn ->
+      Client.get("/fred/category/tags", params, config)
+    end)
+  end
 
   # ---------------------------------------------------------------------------
   # GET /fred/category/related_tags
   # ---------------------------------------------------------------------------
 
   @doc """
-  Get the related tags for a category.
+  Get the related tags for a category, Cached 24h..
 
   ## Parameters
   - `category_id` (required)
@@ -124,6 +147,9 @@ defmodule FredApiClient.Categories do
   - `limit` / `offset` / `order_by` / `sort_order` (optional)
   """
   @spec get_related_tags(map(), config()) :: {:ok, map()} | {:error, Error.t()}
-  def get_related_tags(params, config),
-    do: Client.get("/fred/category/related_tags", params, config)
+  def get_related_tags(params, config) do
+    Cache.fetch(Cache.build_key(@group, "get_related_tags", params), Cache.ttl_24h(), fn ->
+      Client.get("/fred/category/related_tags", params, config)
+    end)
+  end
 end
