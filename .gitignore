@@ -1,0 +1,27 @@
+# Build artifacts
+/_build/
+/cover/
+/deps/
+/doc/
+/.fetch
+
+# Test
+/tmp/
+
+# Dialyzer
+/priv/plts/
+
+# Secrets — never commit
+*.secret.exs
+config/prod.secret.exs
+
+# Editor
+.elixir_ls/
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
