@@ -11,6 +11,7 @@ config :fred_api_client,
   # Cache is on in dev — mirrors production behaviour.
   # Set to false here if you prefer live API responses while developing.
   cache_enabled: true,
+  cache_stats: true,
 
   # Lower TTLs in dev so you see fresh data without restarting.
   # Remove or adjust these to match production TTLs when profiling.
