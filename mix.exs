@@ -44,7 +44,7 @@ defmodule FredApiClient.MixProject do
       {:req, "~> 0.5"},
       # JSON
       {:jason, "~> 1.4"},
-      {:cachex, "~> 3.6"},
+      {:cachex, "~> 4.1"},
       # Dev & test
       {:excoveralls, "~> 0.18", only: :test},
       {:bypass, "~> 2.1", only: :test},
