@@ -5,6 +5,16 @@ defmodule FredApiClient.Maps do
   GeoFRED provides geographic/regional variants of FRED series,
   allowing you to retrieve data broken down by US state, county, MSA, etc.
 
+
+   ## Cache strategy
+
+  | Endpoint          | Cached | TTL  | Reason                            |
+  |-------------------|--------|------|-----------------------------------|
+  | get_shapes        | ✅     | 24h  | GeoJSON shapes never change       |
+  | get_series_group  | ✅     | 24h  | Static geographic metadata        |
+  | get_series_data   | ✅     | 2h   | Updated on release schedule       |
+  | get_regional_data | ✅     | 2h   | Updated on release schedule       |
+
   ## Reference
   https://fred.stlouisfed.org/docs/api/geofred/
   """
@@ -12,10 +22,14 @@ defmodule FredApiClient.Maps do
   alias FredApiClient.Client
   alias FredApiClient.Error
 
+  alias FredApiClient.Cache
+
+  @group "maps"
+
   @type config :: Client.config()
 
   @doc """
-  Get geographic shape files (GeoJSON FeatureCollection).
+  Get geographic shape files (GeoJSON FeatureCollection), Cached 24h(Shapes never Change).
 
   ## Parameters
   - `shape` (required) — `"bea"` | `"msa"` | `"frb"` | `"necta"` | `"state"` |
@@ -27,10 +41,14 @@ defmodule FredApiClient.Maps do
       {:ok, %{"type" => "FeatureCollection", "features" => [...]}}
   """
   @spec get_shapes(map(), config()) :: {:ok, map()} | {:error, Error.t()}
-  def get_shapes(params, config), do: Client.get("/geofred/shapes/file", params, config)
+  def get_shapes(params, config) do
+    Cache.fetch(Cache.build_key(@group, "get_shapes", params), Cache.ttl_24h(), fn ->
+      Client.get("/geofred/shapes/file", params, config)
+    end)
+  end
 
   @doc """
-  Get series group metadata — title, region type, frequency and date range.
+  Get series group metadata — title, region type, frequency and date range, Cached 24h.
 
   ## Parameters
   - `series_id` (required) — e.g. `"SMU56000000500000001a"`
@@ -41,10 +59,14 @@ defmodule FredApiClient.Maps do
       {:ok, %{"series_group" => %{"title" => "...", "region_type" => "state", "min_date" => "...", "max_date" => "..."}}}
   """
   @spec get_series_group(map(), config()) :: {:ok, map()} | {:error, Error.t()}
-  def get_series_group(params, config), do: Client.get("/geofred/series/group", params, config)
+  def get_series_group(params, config) do
+    Cache.fetch(Cache.build_key(@group, "get_series_group", params), Cache.ttl_24h(), fn ->
+      Client.get("/geofred/series/group", params, config)
+    end)
+  end
 
   @doc """
-  Get series regional data for a specific date or date range.
+  Get series regional data for a specific date or date range,  Cached 2h (updated on release schedule).
 
   ## Parameters
   - `series_id` (required)
@@ -57,10 +79,14 @@ defmodule FredApiClient.Maps do
       {:ok, %{"meta" => %{"data" => %{"WI" => %{"value" => "44281", "series_id" => "WIPCPI"}}}}}
   """
   @spec get_series_data(map(), config()) :: {:ok, map()} | {:error, Error.t()}
-  def get_series_data(params, config), do: Client.get("/geofred/series/data", params, config)
+  def get_series_data(params, config) do
+    Cache.fetch(Cache.build_key(@group, "get_series_data", params), Cache.ttl_2h(), fn ->
+      Client.get("/geofred/series/data", params, config)
+    end)
+  end
 
   @doc """
-  Get regional data for a series group.
+  Get regional data for a series group, Cached 2h (updated on release schedule).
 
   ## Parameters
   - `series_group` (required) — e.g. `"882"`
@@ -79,5 +105,9 @@ defmodule FredApiClient.Maps do
       {:ok, %{"meta" => %{"data" => %{"01" => [%{"region" => "Alabama", "value" => "36132", ...}]}}}}
   """
   @spec get_regional_data(map(), config()) :: {:ok, map()} | {:error, Error.t()}
-  def get_regional_data(params, config), do: Client.get("/geofred/regional/data", params, config)
+  def get_regional_data(params, config) do
+    Cache.fetch(Cache.build_key(@group, "get_regional_data", params), Cache.ttl_2h(), fn ->
+      Client.get("/geofred/regional/data", params, config)
+    end)
+  end
 end
