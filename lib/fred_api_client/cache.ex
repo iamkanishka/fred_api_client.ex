@@ -199,6 +199,7 @@ defmodule FredApiClient.Cache do
     Application.get_env(:fred_api_client, :cache_enabled, true)
   end
 
+  @spec ttl_override(atom(), non_neg_integer()) :: non_neg_integer()
   defp ttl_override(key, default) do
     Application.get_env(:fred_api_client, :ttl_overrides, %{})
     |> Map.get(key, default)
