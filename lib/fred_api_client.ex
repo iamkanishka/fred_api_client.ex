@@ -70,19 +70,19 @@ defmodule FredApiClient do
         {:ok, data} ->
           IO.inspect(data["observations"])
 
-        {:error, %FredApiClient.Error{code: code, message: message}} ->
+        {:error, %FredApiClient.HTTP.Error{code: code, message: message}} ->
           Logger.error("FRED Error [\#{code}]: \#{message}")
       end
 
   ## API Reference
 
-  - `FredApiClient.Categories` — 6 endpoints
-  - `FredApiClient.Releases`   — 9 endpoints
-  - `FredApiClient.Series`     — 10 endpoints
-  - `FredApiClient.Sources`    — 3 endpoints
-  - `FredApiClient.Tags`       — 3 endpoints
-  - `FredApiClient.Maps`       — 4 endpoints (GeoFRED)
-  - `FredApiClient.V2`         — 1 endpoint (bulk)
+  - `FredApiClient.API.Categories` — 6 endpoints
+  - `FredApiClient.API.Releases`   — 9 endpoints
+  - `FredApiClient.API.Series`     — 10 endpoints
+  - `FredApiClient.API.Sources`    — 3 endpoints
+  - `FredApiClient.API.Tags`       — 3 endpoints
+  - `FredApiClient.API.Maps`       — 4 endpoints (GeoFRED)
+  - `FredApiClient.API.V2`         — 1 endpoint (bulk)
   """
 
   alias FredApiClient.{Categories, Releases, Series, Sources, Tags, Maps, V2}
@@ -92,6 +92,12 @@ defmodule FredApiClient do
   # ---------------------------------------------------------------------------
 
   @doc false
+  @spec config() :: %{
+          required(:api_key) => String.t(),
+          required(:base_url) => String.t(),
+          required(:file_type) => String.t(),
+          required(:timeout) => non_neg_integer()
+        }
   def config do
     api_key =
       Application.get_env(:fred_api_client, :api_key) ||
