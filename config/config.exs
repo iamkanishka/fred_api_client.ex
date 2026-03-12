@@ -59,7 +59,7 @@ config :fred_api_client,
   #   attempt 1 → sleep base_delay × 1  (default 20 s)
   #   attempt 2 → sleep base_delay × 2  (default 40 s)
   #   attempt 3 → sleep base_delay × 3  (default 60 s)
-  #   → give up, return {:error, %FredApiClient.HTTP.Error{code: 429}}
+  #   → give up, return {:error, %FredApiClient.Error{code: 429}}
   #
   # The 20 s base ensures recovery within FRED's 60 s rate-limit window.
   # HTTP 503 (server overload) is also retried with a shorter 5 s base delay.
