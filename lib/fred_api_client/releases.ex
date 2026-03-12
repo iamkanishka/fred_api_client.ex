@@ -169,7 +169,7 @@ defmodule FredApiClient.Releases do
       {:ok, %{"elements" => %{"12887" => %{"name" => "...", "children" => [...]}}}}
   """
   @spec get_release_tables(map(), config()) :: {:ok, map()} | {:error, Error.t()}
-    def get_release_tables(params, config) do
+  def get_release_tables(params, config) do
     Cache.fetch(Cache.build_key(@group, "get_release_tables", params), Cache.ttl_12h(), fn ->
       Client.get("/fred/release/tables", params, config)
     end)
