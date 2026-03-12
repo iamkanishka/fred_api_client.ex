@@ -1,7 +1,7 @@
 defmodule FredApiClient.MixProject do
   use Mix.Project
 
-  @version "0.1.0"
+  @version "0.1.1"
   @source_url "https://github.com/iamkanishka/fred_api_client.ex"
 
   def project do
@@ -19,7 +19,8 @@ defmodule FredApiClient.MixProject do
         coveralls: :test,
         "coveralls.detail": :test,
         "coveralls.post": :test,
-        "coveralls.html": :test
+        "coveralls.html": :test,
+        "coveralls.github": :test
       ],
       dialyzer: [
         plt_file: {:no_warn, "priv/plts/dialyzer.plt"},
@@ -51,7 +52,8 @@ defmodule FredApiClient.MixProject do
       {:mox, "~> 1.1", only: :test},
       {:ex_doc, "~> 0.40", only: :dev, runtime: false},
       {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
-      {:credo, "~> 1.7", only: [:dev, :test], runtime: false}
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
+      {:plug, "~> 1.19"}
     ]
   end
 
@@ -67,7 +69,8 @@ defmodule FredApiClient.MixProject do
       licenses: ["MIT"],
       links: %{
         "GitHub" => @source_url,
-        "FRED API Docs" => "https://fred.stlouisfed.org/docs/api/fred/"
+        "FRED API Docs" => "https://fred.stlouisfed.org/docs/api/fred/",
+        "Changelog" => "#{@source_url}/blob/main/CHANGELOG.md"
       },
       maintainers: ["Kanishka Naik"],
       keywords: [
