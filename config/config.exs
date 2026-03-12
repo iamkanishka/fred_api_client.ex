@@ -1,7 +1,7 @@
 import Config
 
 # =============================================================================
-# FredApiClient — Base Configuration
+# FredAPIClient — Base Configuration
 #
 # This file sets compile-time defaults for all environments.
 # Override per-environment in config/dev.exs, config/test.exs, config/prod.exs.
@@ -29,7 +29,7 @@ config :fred_api_client,
   # Toggle caching on/off globally. Overridden to false in config/test.exs.
   cache_enabled: true,
 
-  # Name of the Cachex process started by FredApiClient.Application.
+  # Name of the Cachex process started by FredAPIClient.Application.
   # Only change this if you have a naming conflict in your supervision tree.
   cache_name: :fred_api_cache,
 
@@ -59,7 +59,7 @@ config :fred_api_client,
   #   attempt 1 → sleep base_delay × 1  (default 20 s)
   #   attempt 2 → sleep base_delay × 2  (default 40 s)
   #   attempt 3 → sleep base_delay × 3  (default 60 s)
-  #   → give up, return {:error, %FredApiClient.Error{code: 429}}
+  #   → give up, return {:error, %FredAPIClient.Error{code: 429}}
   #
   # The 20 s base ensures recovery within FRED's 60 s rate-limit window.
   # HTTP 503 (server overload) is also retried with a shorter 5 s base delay.

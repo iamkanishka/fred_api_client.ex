@@ -1,7 +1,7 @@
 import Config
 
 # =============================================================================
-# FredApiClient — Test Configuration
+# FredAPIClient — Test Configuration
 #
 # Tests use Bypass to spin up a local HTTP server — no real FRED API calls.
 # =============================================================================

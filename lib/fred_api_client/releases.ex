@@ -1,4 +1,4 @@
-defmodule FredApiClient.Releases do
+defmodule FredAPIClient.Releases do
   @moduledoc """
   FRED Releases API — 9 endpoints.
 
@@ -24,10 +24,10 @@ defmodule FredApiClient.Releases do
   https://fred.stlouisfed.org/docs/api/fred/#Releases
   """
 
-  alias FredApiClient.Client
-  alias FredApiClient.Error
+  alias FredAPIClient.Client
+  alias FredAPIClient.Error
 
-  alias FredApiClient.Cache
+  alias FredAPIClient.Cache
 
   @group "releases"
 
@@ -70,7 +70,7 @@ defmodule FredApiClient.Releases do
 
   ## Example
 
-      iex> FredApiClient.Releases.get_release(%{release_id: 53}, config)
+      iex> FredAPIClient.Releases.get_release(%{release_id: 53}, config)
       {:ok, %{"releases" => [%{"id" => 53, "name" => "Gross Domestic Product", ...}]}}
   """
   @spec get_release(map(), config()) :: {:ok, map()} | {:error, Error.t()}
@@ -165,7 +165,7 @@ defmodule FredApiClient.Releases do
 
   ## Example
 
-      iex> FredApiClient.Releases.get_release_tables(%{release_id: 53, element_id: 12886}, config)
+      iex> FredAPIClient.Releases.get_release_tables(%{release_id: 53, element_id: 12886}, config)
       {:ok, %{"elements" => %{"12887" => %{"name" => "...", "children" => [...]}}}}
   """
   @spec get_release_tables(map(), config()) :: {:ok, map()} | {:error, Error.t()}

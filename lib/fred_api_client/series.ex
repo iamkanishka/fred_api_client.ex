@@ -1,4 +1,4 @@
-defmodule FredApiClient.Series do
+defmodule FredAPIClient.Series do
   @moduledoc """
   FRED Series API — 10 endpoints.
 
@@ -27,10 +27,10 @@ defmodule FredApiClient.Series do
   https://fred.stlouisfed.org/docs/api/fred/#Series
   """
 
-  alias FredApiClient.Client
-  alias FredApiClient.Error
+  alias FredAPIClient.Client
+  alias FredAPIClient.Error
 
-  alias FredApiClient.Cache
+  alias FredAPIClient.Cache
 
   @group "series"
 
@@ -45,7 +45,7 @@ defmodule FredApiClient.Series do
 
   ## Example
 
-      iex> FredApiClient.Series.get_series(%{series_id: "GNPCA"}, config)
+      iex> FredAPIClient.Series.get_series(%{series_id: "GNPCA"}, config)
       {:ok, %{"seriess" => [%{"id" => "GNPCA", "title" => "Real Gross National Product", ...}]}}
   """
   @spec get_series(map(), config()) :: {:ok, map()} | {:error, Error.t()}
@@ -89,7 +89,7 @@ defmodule FredApiClient.Series do
 
   ## Example
 
-      iex> FredApiClient.Series.get_observations(
+      iex> FredAPIClient.Series.get_observations(
       ...>   %{series_id: "GDP", observation_start: "2010-01-01", units: "pc1", frequency: "q"},
       ...>   config
       ...> )
@@ -149,7 +149,7 @@ defmodule FredApiClient.Series do
 
   ## Example
 
-      iex> FredApiClient.Series.search(%{search_text: "unemployment rate", limit: 5, order_by: "popularity"}, config)
+      iex> FredAPIClient.Series.search(%{search_text: "unemployment rate", limit: 5, order_by: "popularity"}, config)
       {:ok, %{"count" => 312, "seriess" => [...]}}
   """
   @spec search(map(), config()) :: {:ok, map()} | {:error, Error.t()}
@@ -212,7 +212,7 @@ defmodule FredApiClient.Series do
 
   ## Example
 
-      iex> FredApiClient.Series.get_vintage_dates(%{series_id: "GNPCA", sort_order: "asc"}, config)
+      iex> FredAPIClient.Series.get_vintage_dates(%{series_id: "GNPCA", sort_order: "asc"}, config)
       {:ok, %{"vintage_dates" => ["1958-12-21", "1959-02-19", ...]}}
   """
   @spec get_vintage_dates(map(), config()) :: {:ok, map()} | {:error, Error.t()}

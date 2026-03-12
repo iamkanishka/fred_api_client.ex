@@ -1,7 +1,7 @@
 import Config
 
 # =============================================================================
-# FredApiClient — Development Configuration
+# FredAPIClient — Development Configuration
 # =============================================================================
 
 config :fred_api_client,

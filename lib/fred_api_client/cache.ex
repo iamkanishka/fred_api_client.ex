@@ -1,4 +1,4 @@
-defmodule FredApiClient.Cache do
+defmodule FredAPIClient.Cache do
   @moduledoc """
   Cachex-backed caching layer for FRED API responses.
 
@@ -71,7 +71,7 @@ defmodule FredApiClient.Cache do
 
   ## Example
 
-      FredApiClient.Cache.fetch("fred:categories:get_category:125", :timer.hours(24), fn ->
+      FredAPIClient.Cache.fetch("fred:categories:get_category:125", :timer.hours(24), fn ->
         Client.get("/fred/category", %{category_id: 125}, config)
       end)
   """

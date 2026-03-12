@@ -1,4 +1,4 @@
-defmodule FredApiClient.MixProject do
+defmodule FredAPIClient.MixProject do
   use Mix.Project
 
   @version "0.1.2"
@@ -35,7 +35,7 @@ defmodule FredApiClient.MixProject do
   def application do
     [
       extra_applications: [:logger],
-      mod: {FredApiClient.Application, []}
+      mod: {FredAPIClient.Application, []}
     ]
   end
 
@@ -99,23 +99,23 @@ defmodule FredApiClient.MixProject do
 
   defp docs do
     [
-      name: "FredApiClient",
+      name: "FredAPIClient",
       source_url: @source_url,
       homepage_url: @source_url,
       main: "readme",
       extras: ["README.md", "CHANGELOG.md"],
       groups_for_modules: [
         API: [
-          FredApiClient.Categories,
-          FredApiClient.Releases,
-          FredApiClient.Series,
-          FredApiClient.Sources,
-          FredApiClient.Tags,
-          FredApiClient.Maps,
-          FredApiClient.V2
+          FredAPIClient.Categories,
+          FredAPIClient.Releases,
+          FredAPIClient.Series,
+          FredAPIClient.Sources,
+          FredAPIClient.Tags,
+          FredAPIClient.Maps,
+          FredAPIClient.V2
         ],
-        HTTP: [FredApiClient.Client, FredApiClient.Error],
-        Types: [FredApiClient.Types]
+        HTTP: [FredAPIClient.Client, FredAPIClient.Error],
+        Types: [FredAPIClient.Types]
       ]
     ]
   end

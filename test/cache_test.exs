@@ -1,7 +1,7 @@
-defmodule FredApiClient.CacheTest do
+defmodule FredAPIClient.CacheTest do
   use ExUnit.Case, async: false
 
-  alias FredApiClient.Cache
+  alias FredAPIClient.Cache
 
   setup do
     # Ensure cache is enabled and using the correct name regardless of
@@ -51,7 +51,7 @@ defmodule FredApiClient.CacheTest do
 
       fun = fn ->
         :counters.add(call_count, 1, 1)
-        {:error, %FredApiClient.Error{code: 400, status: 400, message: "Bad Request"}}
+        {:error, %FredAPIClient.Error{code: 400, status: 400, message: "Bad Request"}}
       end
 
       Cache.fetch("test:key:3", :timer.seconds(60), fun)

@@ -1,4 +1,4 @@
-defmodule FredApiClient.Error do
+defmodule FredAPIClient.Error do
   @moduledoc """
   Represents an error returned by the FRED API or a network failure.
 

@@ -1,8 +1,8 @@
-defmodule FredApiClient.SourcesTest do
+defmodule FredAPIClient.SourcesTest do
   use ExUnit.Case, async: true
 
-  alias FredApiClient.Sources
-  alias FredApiClient.Error
+  alias FredAPIClient.Sources
+  alias FredAPIClient.Error
 
   setup do
     bypass = Bypass.open()

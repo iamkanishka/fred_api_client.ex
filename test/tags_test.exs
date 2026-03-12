@@ -1,8 +1,8 @@
-defmodule FredApiClient.TagsTest do
+defmodule FredAPIClient.TagsTest do
   use ExUnit.Case, async: true
 
-  alias FredApiClient.Tags
-  alias FredApiClient.Error
+  alias FredAPIClient.Tags
+  alias FredAPIClient.Error
 
   setup do
     bypass = Bypass.open()

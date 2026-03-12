@@ -1,4 +1,4 @@
-# FredApiClient
+# FredAPIClient
 
 [![Hex.pm](https://img.shields.io/hexpm/v/fred_api_client.svg)](https://hex.pm/packages/fred_api_client)
 [![CI](https://github.com/iamkanishka/fred_api_client/actions/workflows/ci.yml/badge.svg)](https://github.com/iamkanishka/fred_api_client/actions)
@@ -125,7 +125,7 @@ end
 
 ```elixir
 # GDP quarterly observations — automatically cached for 6 h
-{:ok, data} = FredApiClient.get_series_observations(%{
+{:ok, data} = FredAPIClient.get_series_observations(%{
   series_id:         "GDP",
   observation_start: "2010-01-01",
   units:             "pc1",
@@ -136,7 +136,7 @@ IO.inspect(data["observations"])
 # [%{"date" => "2010-01-01", "value" => "3.7"}, ...]
 
 # Search for series (not cached — free-text results vary)
-{:ok, results} = FredApiClient.search_series(%{
+{:ok, results} = FredAPIClient.search_series(%{
   search_text: "unemployment rate",
   limit:       5,
   order_by:    "popularity",
@@ -144,13 +144,13 @@ IO.inspect(data["observations"])
 })
 
 # All releases (cached 12 h)
-{:ok, releases} = FredApiClient.get_releases(%{limit: 10})
+{:ok, releases} = FredAPIClient.get_releases(%{limit: 10})
 
 # Category tree (cached 24 h)
-{:ok, children} = FredApiClient.get_category_children(%{category_id: 0})
+{:ok, children} = FredAPIClient.get_category_children(%{category_id: 0})
 
 # GeoFRED regional data (cached 2 h)
-{:ok, geo} = FredApiClient.get_regional_data(%{
+{:ok, geo} = FredAPIClient.get_regional_data(%{
   series_group: "882",
   region_type:  "state",
   date:         "2023-01-01",
@@ -199,10 +199,10 @@ TTLs are tuned to match FRED's actual publication cadence, not arbitrary round n
 
 ### Manual cache control
 
-The `FredApiClient.Cache` module exposes the full cache API:
+The `FredAPIClient.Cache` module exposes the full cache API:
 
 ```elixir
-alias FredApiClient.Cache
+alias FredAPIClient.Cache
 
 # Invalidate a single key
 Cache.invalidate("fred:series:get_series:abc123")
@@ -236,7 +236,7 @@ config :fred_api_client, cache_enabled: false
 
 ```elixir
 config = %{api_key: "...", cache_enabled: false}
-FredApiClient.get_series_observations(%{series_id: "GDP"}, config)
+FredAPIClient.get_series_observations(%{series_id: "GDP"}, config)
 ```
 
 ### Overriding TTLs
@@ -269,7 +269,7 @@ The client handles `429` automatically with **exponential backoff**. The default
 | 1st retry | 20 s |
 | 2nd retry | 40 s |
 | 3rd retry | 60 s |
-| Give up | `{:error, %FredApiClient.HTTP.Error{code: 429}}` |
+| Give up | `{:error, %FredAPIClient.HTTP.Error{code: 429}}` |
 
 `503 Service Unavailable` is also retried automatically (5 s base delay, shorter backoff).
 
@@ -289,25 +289,25 @@ config :fred_api_client,
 
 ## Error Handling
 
-All functions return `{:ok, map()}` or `{:error, %FredApiClient.HTTP.Error{}}`:
+All functions return `{:ok, map()}` or `{:error, %FredAPIClient.HTTP.Error{}}`:
 
 ```elixir
-case FredApiClient.get_series_observations(%{series_id: "INVALID"}) do
+case FredAPIClient.get_series_observations(%{series_id: "INVALID"}) do
   {:ok, data} ->
     IO.inspect(data["observations"])
 
-  {:error, %FredApiClient.HTTP.Error{code: 400, message: message}} ->
+  {:error, %FredAPIClient.HTTP.Error{code: 400, message: message}} ->
     Logger.warning("Bad request: #{message}")
 
-  {:error, %FredApiClient.HTTP.Error{code: 429, message: message}} ->
+  {:error, %FredAPIClient.HTTP.Error{code: 429, message: message}} ->
     Logger.error("Rate limit hit after all retries: #{message}")
 
-  {:error, %FredApiClient.HTTP.Error{code: 408}} ->
+  {:error, %FredAPIClient.HTTP.Error{code: 408}} ->
     Logger.error("Request timed out")
 end
 ```
 
-`FredApiClient.HTTP.Error` fields:
+`FredAPIClient.HTTP.Error` fields:
 
 | Field | Type | Description |
 |---|---|---|
@@ -331,14 +331,14 @@ config = %{
   rate_limit_base_delay_ms: 5_000
 }
 
-FredApiClient.get_series_observations(%{series_id: "GDP"}, config)
+FredAPIClient.get_series_observations(%{series_id: "GDP"}, config)
 ```
 
 All API modules also accept an explicit config directly:
 
 ```elixir
-FredApiClient.API.Series.get_observations(%{series_id: "GDP"}, config)
-FredApiClient.API.Categories.get_category(%{category_id: 125}, config)
+FredAPIClient.API.Series.get_observations(%{series_id: "GDP"}, config)
+FredAPIClient.API.Categories.get_category(%{category_id: 125}, config)
 ```
 
 ---
@@ -349,13 +349,13 @@ All 36 endpoints, grouped by module:
 
 | Module | Function | Endpoint | Cached |
 |---|---|---|---|
-| `FredApiClient.API.Categories` | `get_category/2` | `GET /fred/category` | ✅ 24 h |
+| `FredAPIClient.API.Categories` | `get_category/2` | `GET /fred/category` | ✅ 24 h |
 | | `get_children/2` | `GET /fred/category/children` | ✅ 24 h |
 | | `get_related/2` | `GET /fred/category/related` | ✅ 24 h |
 | | `get_series/2` | `GET /fred/category/series` | ✅ 24 h |
 | | `get_tags/2` | `GET /fred/category/tags` | ✅ 24 h |
 | | `get_related_tags/2` | `GET /fred/category/related_tags` | ✅ 24 h |
-| `FredApiClient.API.Releases` | `get_releases/2` | `GET /fred/releases` | ✅ 12 h |
+| `FredAPIClient.API.Releases` | `get_releases/2` | `GET /fred/releases` | ✅ 12 h |
 | | `get_all_release_dates/2` | `GET /fred/releases/dates` | ✅ 1 h |
 | | `get_release/2` | `GET /fred/release` | ✅ 12 h |
 | | `get_release_dates/2` | `GET /fred/release/dates` | ✅ 1 h |
@@ -364,7 +364,7 @@ All 36 endpoints, grouped by module:
 | | `get_release_tags/2` | `GET /fred/release/tags` | ✅ 12 h |
 | | `get_release_related_tags/2` | `GET /fred/release/related_tags` | ✅ 12 h |
 | | `get_release_tables/2` | `GET /fred/release/tables` | ✅ 12 h |
-| `FredApiClient.API.Series` | `get_series/2` | `GET /fred/series` | ✅ 24 h |
+| `FredAPIClient.API.Series` | `get_series/2` | `GET /fred/series` | ✅ 24 h |
 | | `get_categories/2` | `GET /fred/series/categories` | ✅ 24 h |
 | | `get_observations/2` | `GET /fred/series/observations` | ⚠️ by freq |
 | | `get_release/2` | `GET /fred/series/release` | ✅ 24 h |
@@ -374,17 +374,17 @@ All 36 endpoints, grouped by module:
 | | `get_tags/2` | `GET /fred/series/tags` | ✅ 24 h |
 | | `get_updates/2` | `GET /fred/series/updates` | ❌ |
 | | `get_vintage_dates/2` | `GET /fred/series/vintagedates` | ✅ 6 h |
-| `FredApiClient.API.Sources` | `get_sources/2` | `GET /fred/sources` | ✅ 24 h |
+| `FredAPIClient.API.Sources` | `get_sources/2` | `GET /fred/sources` | ✅ 24 h |
 | | `get_source/2` | `GET /fred/source` | ✅ 24 h |
 | | `get_source_releases/2` | `GET /fred/source/releases` | ✅ 24 h |
-| `FredApiClient.API.Tags` | `get_tags/2` | `GET /fred/tags` | ✅ 12 h |
+| `FredAPIClient.API.Tags` | `get_tags/2` | `GET /fred/tags` | ✅ 12 h |
 | | `get_related_tags/2` | `GET /fred/related_tags` | ✅ 12 h |
 | | `get_series/2` | `GET /fred/tags/series` | ❌ |
-| `FredApiClient.API.Maps` | `get_shapes/2` | `GET /geofred/shapes/file` | ✅ 24 h |
+| `FredAPIClient.API.Maps` | `get_shapes/2` | `GET /geofred/shapes/file` | ✅ 24 h |
 | | `get_series_group/2` | `GET /geofred/series/group` | ✅ 24 h |
 | | `get_series_data/2` | `GET /geofred/series/data` | ✅ 2 h |
 | | `get_regional_data/2` | `GET /geofred/regional/data` | ✅ 2 h |
-| `FredApiClient.API.V2` | `get_release_observations/2` | `GET /fred/v2/release/observations` | ❌ |
+| `FredAPIClient.API.V2` | `get_release_observations/2` | `GET /fred/v2/release/observations` | ❌ |
 
 ⚠️ = frequency-aware: `m` → 1 h, `q`/`sa`/`a` → 6 h, `d`/`w`/`bw` → not cached
 

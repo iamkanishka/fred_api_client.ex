@@ -1,4 +1,4 @@
-defmodule FredApiClient.Application do
+defmodule FredAPIClient.Application do
   @moduledoc false
   use Application
 
@@ -10,7 +10,7 @@ defmodule FredApiClient.Application do
 
     children = build_children(cache_name)
 
-    opts = [strategy: :one_for_one, name: FredApiClient.Supervisor]
+    opts = [strategy: :one_for_one, name: FredAPIClient.Supervisor]
     Supervisor.start_link(children, opts)
   end
 

@@ -1,8 +1,8 @@
-defmodule FredApiClient.MapsTest do
+defmodule FredAPIClient.MapsTest do
   use ExUnit.Case, async: true
 
-  alias FredApiClient.Maps
-  alias FredApiClient.Error
+  alias FredAPIClient.Maps
+  alias FredAPIClient.Error
 
   setup do
     bypass = Bypass.open()

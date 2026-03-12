@@ -1,4 +1,4 @@
-defmodule FredApiClient.Tags do
+defmodule FredAPIClient.Tags do
   @moduledoc """
   FRED Tags API — 3 endpoints.
 
@@ -18,9 +18,9 @@ defmodule FredApiClient.Tags do
   https://fred.stlouisfed.org/docs/api/fred/#Tags
   """
 
-  alias FredApiClient.Client
-  alias FredApiClient.Error
-  alias FredApiClient.Cache
+  alias FredAPIClient.Client
+  alias FredAPIClient.Error
+  alias FredAPIClient.Cache
 
   @group "tags"
 
@@ -36,7 +36,7 @@ defmodule FredApiClient.Tags do
 
   ## Example
 
-      iex> FredApiClient.Tags.get_tags(%{tag_group_id: "geo", search_text: "united states"}, config)
+      iex> FredAPIClient.Tags.get_tags(%{tag_group_id: "geo", search_text: "united states"}, config)
       {:ok, %{"tags" => [%{"name" => "usa", "group_id" => "geo", "popularity" => 100, ...}]}}
   """
   @spec get_tags(map(), config()) :: {:ok, map()} | {:error, Error.t()}
@@ -71,7 +71,7 @@ defmodule FredApiClient.Tags do
 
   ## Example
 
-      iex> FredApiClient.Tags.get_series(%{tag_names: "nation;nsa", order_by: "popularity", sort_order: "desc"}, config)
+      iex> FredAPIClient.Tags.get_series(%{tag_names: "nation;nsa", order_by: "popularity", sort_order: "desc"}, config)
       {:ok, %{"count" => 4521, "seriess" => [...]}}
   """
   @spec get_series(map(), config()) :: {:ok, map()} | {:error, Error.t()}

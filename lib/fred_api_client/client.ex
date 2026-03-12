@@ -1,4 +1,4 @@
-defmodule FredApiClient.Client do
+defmodule FredAPIClient.Client do
   @moduledoc """
   Low-level HTTP client for the FRED API.
 
@@ -35,7 +35,7 @@ defmodule FredApiClient.Client do
   Non-retryable errors (400, 404, 423, 500) are returned immediately.
   """
 
-  alias FredApiClient.Error
+  alias FredAPIClient.Error
 
   @base_url "https://api.stlouisfed.org"
   @default_timeout 30_000
@@ -69,7 +69,7 @@ defmodule FredApiClient.Client do
       {:ok, %{"categories" => [%{"id" => 125, ...}]}}
 
       iex> Client.get("/fred/series", %{series_id: "INVALID"}, config)
-      {:error, %FredApiClient.Error{code: 400, status: 400, message: "..."}}
+      {:error, %FredAPIClient.Error{code: 400, status: 400, message: "..."}}
   """
   @spec get(String.t(), map(), config()) :: {:ok, map() | list()} | {:error, Error.t()}
   def get(path, params \\ %{}, config) do

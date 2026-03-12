@@ -1,7 +1,7 @@
 import Config
 
 # =============================================================================
-# FredApiClient — Runtime Configuration
+# FredAPIClient — Runtime Configuration
 #
 # This file is evaluated at runtime (after compilation) by Mix and releases.
 # Put all secrets here. Never put secrets in config/config.exs or other

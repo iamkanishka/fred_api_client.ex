@@ -1,4 +1,4 @@
-defmodule FredApiClient.Maps do
+defmodule FredAPIClient.Maps do
   @moduledoc """
   GeoFRED Maps API — 4 endpoints.
 
@@ -19,10 +19,10 @@ defmodule FredApiClient.Maps do
   https://fred.stlouisfed.org/docs/api/geofred/
   """
 
-  alias FredApiClient.Client
-  alias FredApiClient.Error
+  alias FredAPIClient.Client
+  alias FredAPIClient.Error
 
-  alias FredApiClient.Cache
+  alias FredAPIClient.Cache
 
   @group "maps"
 
@@ -37,7 +37,7 @@ defmodule FredApiClient.Maps do
 
   ## Example
 
-      iex> FredApiClient.Maps.get_shapes(%{shape: "state"}, config)
+      iex> FredAPIClient.Maps.get_shapes(%{shape: "state"}, config)
       {:ok, %{"type" => "FeatureCollection", "features" => [...]}}
   """
   @spec get_shapes(map(), config()) :: {:ok, map()} | {:error, Error.t()}
@@ -55,7 +55,7 @@ defmodule FredApiClient.Maps do
 
   ## Example
 
-      iex> FredApiClient.Maps.get_series_group(%{series_id: "SMU56000000500000001a"}, config)
+      iex> FredAPIClient.Maps.get_series_group(%{series_id: "SMU56000000500000001a"}, config)
       {:ok, %{"series_group" => %{"title" => "...", "region_type" => "state", "min_date" => "...", "max_date" => "..."}}}
   """
   @spec get_series_group(map(), config()) :: {:ok, map()} | {:error, Error.t()}
@@ -75,7 +75,7 @@ defmodule FredApiClient.Maps do
 
   ## Example
 
-      iex> FredApiClient.Maps.get_series_data(%{series_id: "WIPCPI", date: "2012-01-01"}, config)
+      iex> FredAPIClient.Maps.get_series_data(%{series_id: "WIPCPI", date: "2012-01-01"}, config)
       {:ok, %{"meta" => %{"data" => %{"WI" => %{"value" => "44281", "series_id" => "WIPCPI"}}}}}
   """
   @spec get_series_data(map(), config()) :: {:ok, map()} | {:error, Error.t()}
@@ -98,7 +98,7 @@ defmodule FredApiClient.Maps do
 
   ## Example
 
-      iex> FredApiClient.Maps.get_regional_data(
+      iex> FredAPIClient.Maps.get_regional_data(
       ...>   %{series_group: "882", region_type: "state", date: "2013-01-01", season: "NSA", units: "Dollars"},
       ...>   config
       ...> )

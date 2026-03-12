@@ -1,7 +1,7 @@
-defmodule FredApiClient.ErrorTest do
+defmodule FredAPIClient.ErrorTest do
   use ExUnit.Case, async: true
 
-  alias FredApiClient.Error
+  alias FredAPIClient.Error
 
   describe "Error struct" do
     test "is a defexception with code, status, and message fields" do
@@ -44,11 +44,11 @@ defmodule FredApiClient.ErrorTest do
   end
 end
 
-defmodule FredApiClient.V2Test do
+defmodule FredAPIClient.V2Test do
   use ExUnit.Case, async: true
 
-  alias FredApiClient.V2
-  alias FredApiClient.Error
+  alias FredAPIClient.V2
+  alias FredAPIClient.Error
 
   setup do
     bypass = Bypass.open()

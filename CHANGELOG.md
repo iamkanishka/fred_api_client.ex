@@ -20,10 +20,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * Comprehensive **ExUnit test suite** covering core modules:
 
-  * `FredApiClient.CacheTest`
-  * `FredApiClient.ClientTest`
-  * `FredApiClient.CategoriesTest`
-  * `FredApiClient.SeriesTest`
+  * `FredAPIClient.CacheTest`
+  * `FredAPIClient.ClientTest`
+  * `FredAPIClient.CategoriesTest`
+  * `FredAPIClient.SeriesTest`
 * **Bypass-based HTTP mocking** for all API calls to ensure tests run without external network access
 * Tests verifying:
 
@@ -31,7 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   * Cache invalidation (`invalidate/1`, `invalidate_prefix/1`, `clear/0`)
   * Deterministic cache key generation (`build_key/3`)
   * HTTP client query building and parameter filtering
-  * API error handling and structured `FredApiClient.Error`
+  * API error handling and structured `FredAPIClient.Error`
   * Retry behaviour and non-JSON error responses
 * Added `test/test_helper.exs` to start ExUnit
 * Total test coverage: **34 tests validating core behaviour**
@@ -46,20 +46,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * Full coverage of all **36 FRED API endpoints** across 7 modules:
 
-  * `FredApiClient.Categories` — 6 endpoints
-  * `FredApiClient.Releases`   — 9 endpoints
-  * `FredApiClient.Series`     — 10 endpoints
-  * `FredApiClient.Sources`    — 3 endpoints
-  * `FredApiClient.Tags`       — 3 endpoints
-  * `FredApiClient.Maps`       — 4 endpoints (GeoFRED)
-  * `FredApiClient.V2`         — 1 endpoint (bulk)
-* Top-level `FredApiClient` module with `defdelegate` shortcuts for all 36 endpoints
+  * `FredAPIClient.Categories` — 6 endpoints
+  * `FredAPIClient.Releases`   — 9 endpoints
+  * `FredAPIClient.Series`     — 10 endpoints
+  * `FredAPIClient.Sources`    — 3 endpoints
+  * `FredAPIClient.Tags`       — 3 endpoints
+  * `FredAPIClient.Maps`       — 4 endpoints (GeoFRED)
+  * `FredAPIClient.V2`         — 1 endpoint (bulk)
+* Top-level `FredAPIClient` module with `defdelegate` shortcuts for all 36 endpoints
 * Application config support via `config :fred_api_client, api_key: ...`
 * Explicit per-call config support for multi-tenant / per-request API key usage
 * `Req`-based HTTP client with per-request timeout and structured error handling
-* `FredApiClient.Error` exception struct with `code`, `status`, `message` fields
+* `FredAPIClient.Error` exception struct with `code`, `status`, `message` fields
 
-#### Caching (`FredApiClient.Cache`)
+#### Caching (`FredAPIClient.Cache`)
 
 * Cachex-backed in-process caching, started automatically by the OTP application
 * **Frequency-aware TTLs** for `Series.get_observations/2`:

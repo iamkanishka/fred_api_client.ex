@@ -1,4 +1,4 @@
-defmodule FredApiClient.Categories do
+defmodule FredAPIClient.Categories do
   @moduledoc """
   FRED Categories API — 6 endpoints. All responses are cached for 24h.
 
@@ -10,10 +10,10 @@ defmodule FredApiClient.Categories do
   https://fred.stlouisfed.org/docs/api/fred/#Categories
   """
 
-  alias FredApiClient.Client
-  alias FredApiClient.Error
+  alias FredAPIClient.Client
+  alias FredAPIClient.Error
 
-  alias FredApiClient.Cache
+  alias FredAPIClient.Cache
 
   @group "categories"
 
@@ -31,7 +31,7 @@ defmodule FredApiClient.Categories do
 
   ## Example
 
-      iex> FredApiClient.Categories.get_category(%{category_id: 125}, config)
+      iex> FredAPIClient.Categories.get_category(%{category_id: 125}, config)
       {:ok, %{"categories" => [%{"id" => 125, "name" => "Trade Balance", "parent_id" => 13}]}}
   """
   @spec get_category(map(), config()) :: {:ok, map()} | {:error, Error.t()}
@@ -54,7 +54,7 @@ defmodule FredApiClient.Categories do
 
   ## Example
 
-      iex> FredApiClient.Categories.get_children(%{category_id: 13}, config)
+      iex> FredAPIClient.Categories.get_children(%{category_id: 13}, config)
       {:ok, %{"categories" => [%{"id" => 16, "name" => "Exports", "parent_id" => 13}, ...]}}
   """
   @spec get_children(map(), config()) :: {:ok, map()} | {:error, Error.t()}
@@ -104,7 +104,7 @@ defmodule FredApiClient.Categories do
 
   ## Example
 
-      iex> FredApiClient.Categories.get_series(%{category_id: 125, limit: 5, order_by: "popularity", sort_order: "desc"}, config)
+      iex> FredAPIClient.Categories.get_series(%{category_id: 125, limit: 5, order_by: "popularity", sort_order: "desc"}, config)
       {:ok, %{"count" => 32, "seriess" => [...]}}
   """
   @spec get_series(map(), config()) :: {:ok, map()} | {:error, Error.t()}

@@ -1,4 +1,4 @@
-defmodule FredApiClient do
+defmodule FredAPIClient do
   @moduledoc """
   A fully-typed Elixir client for the Federal Reserve Economic Data (FRED) API.
 
@@ -30,17 +30,17 @@ defmodule FredApiClient do
 
   Then call any function without passing config:
 
-      FredApiClient.Series.get_observations(%{series_id: "GDP"})
+      FredAPIClient.Series.get_observations(%{series_id: "GDP"})
 
   ### Explicit config (for multi-tenant or test usage)
 
       config = %{api_key: "your_api_key", timeout: 10_000}
-      FredApiClient.Series.get_observations(%{series_id: "GDP"}, config)
+      FredAPIClient.Series.get_observations(%{series_id: "GDP"}, config)
 
   ## Quick Start
 
       # Get GDP observations
-      {:ok, data} = FredApiClient.Series.get_observations(%{
+      {:ok, data} = FredAPIClient.Series.get_observations(%{
         series_id: "GDP",
         observation_start: "2010-01-01",
         units: "pc1",
@@ -48,7 +48,7 @@ defmodule FredApiClient do
       })
 
       # Search for series
-      {:ok, results} = FredApiClient.Series.search(%{
+      {:ok, results} = FredAPIClient.Series.search(%{
         search_text: "unemployment rate",
         limit: 5,
         order_by: "popularity",
@@ -56,7 +56,7 @@ defmodule FredApiClient do
       })
 
       # Get geographic data
-      {:ok, geo} = FredApiClient.Maps.get_regional_data(%{
+      {:ok, geo} = FredAPIClient.Maps.get_regional_data(%{
         series_group: "882",
         region_type: "state",
         date: "2023-01-01",
@@ -66,26 +66,26 @@ defmodule FredApiClient do
 
   ## Error Handling
 
-      case FredApiClient.Series.get_observations(%{series_id: "INVALID"}) do
+      case FredAPIClient.Series.get_observations(%{series_id: "INVALID"}) do
         {:ok, data} ->
           IO.inspect(data["observations"])
 
-        {:error, %FredApiClient.Error{code: code, message: message}} ->
+        {:error, %FredAPIClient.Error{code: code, message: message}} ->
           Logger.error("FRED Error [\#{code}]: \#{message}")
       end
 
   ## API Reference
 
-  - `FredApiClient.Categories` — 6 endpoints
-  - `FredApiClient.Releases`   — 9 endpoints
-  - `FredApiClient.Series`     — 10 endpoints
-  - `FredApiClient.Sources`    — 3 endpoints
-  - `FredApiClient.Tags`       — 3 endpoints
-  - `FredApiClient.Maps`       — 4 endpoints (GeoFRED)
-  - `FredApiClient.V2`         — 1 endpoint (bulk)
+  - `FredAPIClient.Categories` — 6 endpoints
+  - `FredAPIClient.Releases`   — 9 endpoints
+  - `FredAPIClient.Series`     — 10 endpoints
+  - `FredAPIClient.Sources`    — 3 endpoints
+  - `FredAPIClient.Tags`       — 3 endpoints
+  - `FredAPIClient.Maps`       — 4 endpoints (GeoFRED)
+  - `FredAPIClient.V2`         — 1 endpoint (bulk)
   """
 
-  alias FredApiClient.{Categories, Releases, Series, Sources, Tags, Maps, V2}
+  alias FredAPIClient.{Categories, Releases, Series, Sources, Tags, Maps, V2}
 
   # ---------------------------------------------------------------------------
   # Config helpers
@@ -102,13 +102,13 @@ defmodule FredApiClient do
     api_key =
       Application.get_env(:fred_api_client, :api_key) ||
         raise ArgumentError, """
-        FredApiClient requires an API key. Set it in your config:
+        FredAPIClient requires an API key. Set it in your config:
 
             config :fred_api_client, api_key: System.get_env("FRED_API_KEY")
 
         Or pass it explicitly:
 
-            FredApiClient.Series.get_observations(%{series_id: "GDP"}, %{api_key: "YOUR_KEY"})
+            FredAPIClient.Series.get_observations(%{series_id: "GDP"}, %{api_key: "YOUR_KEY"})
         """
 
     %{

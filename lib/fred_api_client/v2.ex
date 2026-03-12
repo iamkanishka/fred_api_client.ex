@@ -1,4 +1,4 @@
-defmodule FredApiClient.V2 do
+defmodule FredAPIClient.V2 do
   @moduledoc """
   FRED Bulk API v2 — 1 endpoint.
 
@@ -9,8 +9,8 @@ defmodule FredApiClient.V2 do
   https://fred.stlouisfed.org/docs/api/fred/v2/
   """
 
-  alias FredApiClient.Client
-  alias FredApiClient.Error
+  alias FredAPIClient.Client
+  alias FredAPIClient.Error
 
   @type config :: Client.config()
 
@@ -28,7 +28,7 @@ defmodule FredApiClient.V2 do
 
   ## Example
 
-      iex> FredApiClient.V2.get_release_observations(%{release_id: 53, file_type: "json"}, config)
+      iex> FredAPIClient.V2.get_release_observations(%{release_id: 53, file_type: "json"}, config)
       {:ok, %{...}}
   """
   @spec get_release_observations(map(), config()) :: {:ok, map()} | {:error, Error.t()}

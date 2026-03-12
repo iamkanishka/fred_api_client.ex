@@ -1,4 +1,4 @@
-defmodule FredApiClient.Sources do
+defmodule FredAPIClient.Sources do
   @moduledoc """
     FRED Sources API — 3 endpoints. All cached 24h.
 
@@ -9,9 +9,9 @@ defmodule FredApiClient.Sources do
   https://fred.stlouisfed.org/docs/api/fred/#Sources
   """
 
-  alias FredApiClient.Client
-  alias FredApiClient.Error
-  alias FredApiClient.Cache
+  alias FredAPIClient.Client
+  alias FredAPIClient.Error
+  alias FredAPIClient.Cache
 
   @group "sources"
 
@@ -40,7 +40,7 @@ defmodule FredApiClient.Sources do
 
   ## Example
 
-      iex> FredApiClient.Sources.get_source(%{source_id: 1}, config)
+      iex> FredAPIClient.Sources.get_source(%{source_id: 1}, config)
       {:ok, %{"sources" => [%{"id" => 1, "name" => "Board of Governors of the Federal Reserve System", ...}]}}
   """
   @spec get_source(map(), config()) :: {:ok, map()} | {:error, Error.t()}

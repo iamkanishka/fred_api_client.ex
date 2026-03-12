@@ -1,7 +1,7 @@
-defmodule FredApiClient.CategoriesTest do
+defmodule FredAPIClient.CategoriesTest do
   use ExUnit.Case, async: true
 
-  alias FredApiClient.Categories
+  alias FredAPIClient.Categories
 
   setup do
     bypass = Bypass.open()
