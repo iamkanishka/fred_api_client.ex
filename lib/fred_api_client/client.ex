@@ -69,7 +69,7 @@ defmodule FredApiClient.Client do
       {:ok, %{"categories" => [%{"id" => 125, ...}]}}
 
       iex> Client.get("/fred/series", %{series_id: "INVALID"}, config)
-      {:error, %FredApiClient.HTTP.Error{code: 400, status: 400, message: "..."}}
+      {:error, %FredApiClient.Error{code: 400, status: 400, message: "..."}}
   """
   @spec get(String.t(), map(), config()) :: {:ok, map() | list()} | {:error, Error.t()}
   def get(path, params \\ %{}, config) do
