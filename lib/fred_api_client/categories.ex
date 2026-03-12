@@ -76,7 +76,7 @@ defmodule FredApiClient.Categories do
   - `realtime_start` / `realtime_end` (optional)
   """
   @spec get_related(map(), config()) :: {:ok, map()} | {:error, Error.t()}
-   def get_related(params, config) do
+  def get_related(params, config) do
     Cache.fetch(Cache.build_key(@group, "get_related", params), Cache.ttl_24h(), fn ->
       Client.get("/fred/category/related", params, config)
     end)
