@@ -66,7 +66,7 @@ defmodule FredAPIClient.MixProject do
   defp package do
     [
       name: "fred_api_client",
-      licenses: ["MIT"],
+      licenses: ["Apache-2.0"],
       links: %{
         "GitHub" => @source_url,
         "FRED API Docs" => "https://fred.stlouisfed.org/docs/api/fred/",
@@ -93,7 +93,7 @@ defmodule FredAPIClient.MixProject do
         "geofred",
         "regional-data"
       ],
-      files: ~w(lib .formatter.exs mix.exs README.md LICENSE.txt CHANGELOG.md)
+      files: ~w(lib .formatter.exs mix.exs README.md LICENSE CHANGELOG.md)
     ]
   end
 
